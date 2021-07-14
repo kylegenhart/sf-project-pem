@@ -1,0 +1,70 @@
+<template>
+    <div class="slds-m-around_small">
+      <lightning-card
+        variant="Narrow"
+        title="Event Details"
+        icon-name="standard:event"
+      >
+        <lightning-tabset variant="scoped" active-tab-value="event">
+          <lightning-tab label="Event Details" value="event">
+            <div class="slds-m-around_small">
+              <lightning-record-form
+                record-id={recordId}
+                mode="readonly"
+                layout-type="Full"
+                columns="2"
+                object-api-name="Event__c"
+              >
+              </lightning-record-form>
+            </div>
+          </lightning-tab>
+          <lightning-tab
+            label="Event Speakers"
+            value="speaker"
+          >
+          
+          <lightning-datatable
+          key-field="id"
+          data={speakerList}
+          columns={columnsList}
+          >
+          
+          </lightning-datatable>
+          </lightning-tab>
+            
+          <lightning-tab
+            label="Event Location"
+            value="location"
+          >
+            <template if:true={eventRec}>
+              <template if:true={eventRec.Location_Address_Book__c}>
+              Location Landmark - {eventRec.Location_Address_Book__r.Landmark__c}
+              <lightning-formatted-address
+                city={eventRec.Location_Address_Book__r.City__c}
+                province={eventRec.Location_Address_Book__r.State__c}
+                postal-code={eventRec.Location_Address_Book__r.Postal_Code__c}
+                country={eventRec.Location_Address_Book__r.Country}
+                street={eventRec.Location_Address_Book__r.Street__c}
+                title="Event Location"
+              >
+              </lightning-formatted-address>
+            </template>
+          </template>
+          </lightning-tab>
+
+          <lightning-tab
+            label="Event Attendees"
+            value="att"
+          >
+  
+            <lightning-datatable
+              key-field="id"
+              data={attendeesList}
+              columns={columnAtt}
+            >
+            </lightning-datatable>
+          </lightning-tab>
+        </lightning-tabset>
+      </lightning-card>
+    </div>
+  </template>
